@@ -1,9 +1,14 @@
 # es6-mock
 写mock数据时更友好顺滑
+
 支持 es6 import/export mock 数据
+
 内置 sleep 延迟输出
+
 内置 web服务 express对象 request、response
+
 内置基本工具对象 fs、path
+
 使用 mockjs mock你的数据
 
 ### Install
