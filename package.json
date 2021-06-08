@@ -1,0 +1,34 @@
+{
+  "name": "es6-mock",
+  "version": "1.0.0",
+  "description": "es6-mock",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node test/index.js",
+    "debug": "node --inspect test/index.js",
+    "pub": "sh publish.sh",
+    "test": "echo \\\"Error: no dist specified\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maweimaweima/es6-mock.git"
+  },
+  "keywords": [
+    "mock",
+    "data",
+    "es6",
+    "module",
+    "import",
+    "export"
+  ],
+  "author": "deepFish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maweimaweima/es6-mock/issues"
+  },
+  "homepage": "https://github.com/maweimaweima/es6-mock#readme",
+  "dependencies": {
+    "deasync": "^0.1.21",
+    "mockjs": "^1.1.0"
+  }
+}
