@@ -58,7 +58,7 @@ export default {
 import test1 from './test1';
 import test2 from './test2';
 
-module.exports = {
+export default {
     code: 1000,
     data: 'test03',
     test1,
