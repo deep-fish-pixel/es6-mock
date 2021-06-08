@@ -16,6 +16,8 @@ Install with npm:
 ```angular2html
 // 使用devServer启用es6Mock
 
+const es6Mock = require('es6-mock');
+
 devServer: {
     before: function (app) {
         app.use(es6Mock({
@@ -23,11 +25,11 @@ devServer: {
             path: '/api'
         }));
     }
-},
+}
 ```
 
 ```angular2html
-// 使用sleep test1.js
+// 使用sleep延期1000ms响应 test1.js
 
 sleep(1000);
 
