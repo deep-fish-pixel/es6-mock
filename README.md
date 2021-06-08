@@ -35,7 +35,7 @@ devServer: {
 sleep(1000);
 
 export default {
-    result: 1000,
+    code: 1000,
     data: 'test1'
 };
 ```
@@ -44,7 +44,7 @@ export default {
 // 支持mockjs  test2.js
 
 export default {
-    result: 1000,
+    code: 1000,
     data: {
         'star|1-10': '★',
         "switch|1-2": true
@@ -59,7 +59,7 @@ import test1 from './test1';
 import test2 from './test2';
 
 module.exports = {
-    result: 1000,
+    code: 1000,
     data: 'test03',
     test1,
     test2
@@ -71,7 +71,7 @@ module.exports = {
 // 使用request获取参数
 
 export default {
-    result: 1000,
+    code: 1000,
     data: request.query.color
 };
 ```
