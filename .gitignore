@@ -9,7 +9,6 @@ yarn-error.log*
 /dist/unit/coverage/
 /dist/e2e/reports/
 selenium-debug.log
-test
 # Editor directories and files
 .idea
 .vscode

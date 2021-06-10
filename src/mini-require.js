@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const sleep = require('./sleep');
+const validate = require('./validate');
 
 const tails = ['.js', '.ts', '.jsx', '.vue'];
 
@@ -24,8 +25,8 @@ function miniRequire(moduleName) {
   const params = [
     'exports', 'module', 'require',
     '__dirname', '__filename',
-    'request', 'response',
-    'sleep'
+    '$request', '$response',
+    '$sleep', '$validate'
   ];
   const exportConsts = [];
   const data = content
@@ -46,7 +47,7 @@ function miniRequire(moduleName) {
     module.exports, module, miniRequire,
     filename.replace(/\/[^/]+$/, ''), filename,
     request, response,
-    sleep
+    sleep, validate
   );
 
   // 恢复上一次操作

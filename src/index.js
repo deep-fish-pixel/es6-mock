@@ -1,6 +1,7 @@
 const path = require('path');
 const Mock = require('mockjs');
 const miniRequire = require('./mini-require');
+const sleep = require('./sleep');
 
 /**
  * 中间件mock
@@ -20,8 +21,13 @@ module.exports = function ({ dir, path: urlPath }) {
         global.__request = request;
         global.__response = response;
         const content = miniRequire(file);
-
-        response.json(Mock.mock(content || {}));
+        if (request.validated) {
+          sleep(0);
+        }
+        // 验证通过时返回值
+        if (!request.validateFailed) {
+          response.json(Mock.mock(content || {}));
+        }
       } catch (e) {
         response.status(404).send(e.message);
       }
