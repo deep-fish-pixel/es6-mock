@@ -10,6 +10,9 @@ const tails = ['.js', '.ts', '.jsx', '.vue'];
  * @returns {*}
  */
 function miniRequire(moduleName) {
+  if (moduleName && moduleName.match(/^[\w]/)) {
+    return require(moduleName);
+  }
   const prevParentPath = global.__parentPath;
   const request = global.__request;
   const response = global.__request;
@@ -17,11 +20,11 @@ function miniRequire(moduleName) {
 
   global.__parentPath = filePath.replace(/\/[^/]+$/, '');
 
-  const { content } = getContent(filePath) || {};
+  const { content, filename } = getContent(filePath) || {};
   const params = [
-    'exports', 'module', 'require', '__dirname', '__filename',
+    'exports', 'module', 'require',
+    '__dirname', '__filename',
     'request', 'response',
-    'path', 'fs',
     'sleep'
   ];
   const exportConsts = [];
@@ -40,9 +43,9 @@ function miniRequire(moduleName) {
   };
 
   const result = fn(
-    module.exports, module, miniRequire, __dirname, __filename,
+    module.exports, module, miniRequire,
+    filename.replace(/\/[^/]+$/, ''), filename,
     request, response,
-    path, fs,
     sleep
   );
 
@@ -71,7 +74,7 @@ function getContent(moduleName) {
     if (fs.existsSync(filename)) {
       result = {
         content: fs.readFileSync(filename, 'utf8'),
-        filename: moduleName
+        filename: filename,
       };
       return true;
     }
