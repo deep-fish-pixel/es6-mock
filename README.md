@@ -1,5 +1,5 @@
 # es6-mock
-使mock数据更方面友好，升级到mock2更强大
+使mock数据更简便友好，mock2更强大
 
 * 支持 es6 import/export mock 数据
 * 支持 import/export 使用开源库
@@ -13,25 +13,29 @@ Install with npm:
 
 `$ npm install --save-dev es6-mock`
 
-### Uses：
+### Uses
+
+在webpack.config.js或vue.config.js的devServer中配置
 
 ```angular2html
-// 使用devServer启用es6Mock
-
 const es6Mock = require('es6-mock');
 
 devServer: {
     before: function (app) {
         app.use(es6Mock({
+            // 模拟数据js存放根目录
             dir: './mock',
+            // url访问根路径名称 
             path: '/api'
         }));
     }
 }
 ```
+### Examples：
 
 ```angular2html
 // 使用sleep延期1000ms响应 test1.js
+// url地址：http://localhost:port/api/test1
 
 sleep(1000);
 
@@ -39,10 +43,12 @@ export default {
     code: 1000,
     data: 'test1'
 };
+
 ```
 
 ```angular2html
 // 支持mockjs  test2.js
+// url地址：http://localhost:port/api/test2
 
 export default {
     code: 1000,
@@ -55,6 +61,7 @@ export default {
 
 ```angular2html
 // 支持 import 导入模块 test3.js
+// url地址：http://localhost:port/api/test3
 
 import test1 from './test1';
 import test2 from './test2';
@@ -65,11 +72,11 @@ export default {
     test1,
     test2
 };
-
 ```
 
 ```angular2html
 // 使用request获取参数  test4.js
+// url地址：http://localhost:port/api/test4
 
 export default {
     code: 1000,
@@ -80,6 +87,8 @@ export default {
 ```angular2html
 // 使用validate校验method及参数 test5.js
 // 参数校验使用库：node-input-validator
+// url地址：http://localhost:port/api/test5
+
 $validate({
     // 对参数校验
     params: {
@@ -94,11 +103,12 @@ export default {
     code: 1000,
     data: 'test6'
 };
-
 ```
 
 ```angular2html
 // 引用path、fs库 test6.js
+// url地址：http://localhost:port/api/test6
+
 import path from 'path';
 import fs from 'fs';
 
@@ -111,6 +121,8 @@ export default {
 
 ```angular2html
 // 使用其他开源库  test7.js
+// url地址：http://localhost:port/api/test7
+
 import deasync from 'deasync';
 
 //等待2s
@@ -120,5 +132,4 @@ export default {
     code: 2000,
     data: 'test7'
 };
-
 ```
