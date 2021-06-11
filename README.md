@@ -5,7 +5,7 @@
 * 支持 import/export 使用开源库
 * 内置 web服务 express对象 $request、$response
 * 内置 $sleep 延迟输出
-* 内置 $validate 进行params及method校验
+* 内置 $validate 进行params及method校验，params校验库：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
 * 支持 mockjs 输出mock格式的数据
 
 ### Install
@@ -86,7 +86,6 @@ export default {
 
 ```angular2html
 // 使用validate校验method及参数 test5.js
-// 参数校验使用库：node-input-validator
 // url地址：http://localhost:port/api/test5
 
 $validate({
@@ -96,7 +95,7 @@ $validate({
         name: 'required'
     },
     // 对请求方式校验
-    method: 'get|post|put'
+    method: 'get|post|put|delete|patch'
 });
 
 export default {
