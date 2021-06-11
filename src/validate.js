@@ -24,8 +24,10 @@ module.exports = function (validates) {
 function validateParams(body, params) {
   const validator = new Validator(body, params);
   return validator.check().then((matched) => {
-    __request.validateFailed = true;
-    __response.status(422).send(validator.errors);
+    if (!matched) {
+      __request.validateFailed = true;
+      __response.status(422).send(validator.errors);
+    }
     return true;
   });
 }

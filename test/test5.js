@@ -2,13 +2,13 @@
 // 参数校验使用库：node-input-validator
 $validate({
   params: {
-    id: 'required',
-    name: 'required'
+    offset: 'required|integer',
+    limit: 'required|integer'
   },
-  method: 'get|post|put'
+  method: 'get'
 });
 
 export default {
   code: 1000,
-  data: 'test6'
+  data: 'test5'
 };

@@ -4,6 +4,6 @@ import fs from 'fs';
 
 export default {
   code: 1000,
-  data: 'test5',
-  exist: fs.existsSync(path.join(__dirname, 'test66.js'))
+  data: 'test6',
+  exist: fs.existsSync(path.join(__dirname, 'test6.js'))
 };
