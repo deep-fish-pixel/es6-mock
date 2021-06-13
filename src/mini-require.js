@@ -11,7 +11,8 @@ const tails = ['.js', '.ts', '.jsx', '.vue'];
  * @returns {*}
  */
 function miniRequire(moduleName) {
-  if (moduleName && moduleName.match(/^[\w]/)) {
+  // 加载公共库
+  if (moduleName && moduleName.match(/^[^.\/]/)) {
     return require(moduleName);
   }
   const prevParentPath = global.__parentPath;
