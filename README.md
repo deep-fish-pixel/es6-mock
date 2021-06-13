@@ -82,7 +82,7 @@ export default {
 
 export default {
     code: 1000,
-    data: request.query.color
+    data: $request.query.color
 };
 ```
 
@@ -102,21 +102,7 @@ $validate({
 
 export default {
     code: 1000,
-    data: 'test6'
-};
-```
-
-```angular2html
-// 引用path、fs库 test6.js
-// url地址：http://localhost:port/api/test6
-
-import path from 'path';
-import fs from 'fs';
-
-export default {
-    code: 1000,
-    data: 'test5',
-    exist: fs.existsSync(path.join(__dirname, 'test6.js'))
+    data: 'test5'
 };
 ```
 
@@ -132,5 +118,26 @@ deasync.sleep(2000);
 export default {
     code: 2000,
     data: 'test7'
+};
+```
+
+```angular2html
+// 使用库导入变量 test8.js
+// url地址：http://localhost:port/api/test8
+
+import { sleep, validate, getRequest } from 'es6-mock';
+
+// 校验数据
+validate({
+    params: {
+        id: 'required'
+        name: 'required',
+    },
+    method: 'get'
+});
+
+export default {
+    'result_code|1-10': '0',
+    params: getRequest().query
 };
 ```

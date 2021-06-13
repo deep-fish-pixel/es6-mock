@@ -3,6 +3,7 @@ const Mock = require('mockjs');
 const bodyParser = require('body-parser');
 const miniRequire = require('./mini-require');
 const sleep = require('./sleep');
+const validate = require('./validate');
 
 /**
  * 中间件mock
@@ -41,4 +42,15 @@ module.exports = function ({ dir, path: urlPath, bodyParserApp }) {
     }
   };
 };
+
+Object.assign(module.exports, {
+  sleep,
+  validate,
+  getRequest: function (){
+    return global.__request;
+  },
+  getResponse: function (){
+    return global.__response;
+  },
+});
 

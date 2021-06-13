@@ -14,6 +14,7 @@ module.exports = function (validates) {
   if(!validateMethod(validates.method)){
     return validateParams(__request.method === Methods.Get ? __request.query : __request.body, validates.params);
   }
+  return Promise.resolve(false);
 }
 
 /**
