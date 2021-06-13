@@ -26,7 +26,9 @@ devServer: {
             // 模拟数据js存放根目录
             dir: './mock',
             // url访问根路径名称 
-            path: '/api'
+            path: '/api',
+            // add express bodyParser
+            bodyParserApp: app
         }));
     }
 }

@@ -1,5 +1,6 @@
 const path = require('path');
 const Mock = require('mockjs');
+const bodyParser = require('body-parser');
 const miniRequire = require('./mini-require');
 const sleep = require('./sleep');
 
@@ -9,7 +10,11 @@ const sleep = require('./sleep');
  * @param urlPath
  * @returns {(function(*, *, *): void)|*}
  */
-module.exports = function ({ dir, path: urlPath }) {
+module.exports = function ({ dir, path: urlPath, bodyParserApp }) {
+  if (bodyParserApp) {
+    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(bodyParser.json());
+  }
   return function (request, response, next) {
     if (request.path.indexOf(urlPath) === 0) {
       const file = path.join('/', dir, `${
