@@ -12,8 +12,8 @@ const sleep = require('./sleep');
  */
 module.exports = function ({ dir, path: urlPath, bodyParserApp }) {
   if (bodyParserApp) {
-    app.use(bodyParser.urlencoded({extended: false}));
-    app.use(bodyParser.json());
+    bodyParserApp.use(bodyParser.urlencoded({extended: false}));
+    bodyParserApp.use(bodyParser.json());
   }
   return function (request, response, next) {
     if (request.path.indexOf(urlPath) === 0) {
