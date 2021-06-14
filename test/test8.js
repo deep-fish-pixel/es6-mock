@@ -5,7 +5,7 @@ sleep(500);
 
 // 校验数据
 validate({
-  params: {
+  param: {
     name: 'required',
     id: 'required'
   },
@@ -15,5 +15,5 @@ validate({
 export default {
   'result_code|1-10': '0',
   data: '1000',
-  params: getRequest().query
+  param: getRequest().query
 };

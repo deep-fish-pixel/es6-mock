@@ -1,7 +1,7 @@
 // 使用validate校验method及参数 test5.js
 // 参数校验使用库：node-input-validator
 $validate({
-  params: {
+  param: {
     offset: 'required|integer',
     limit: 'required|integer'
   },

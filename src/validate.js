@@ -12,7 +12,7 @@ const Methods = {
 module.exports = function (validates) {
   __request.validated = true;
   if(!validateMethod(validates.method)){
-    return validateParams(__request.method === Methods.Get ? __request.query : __request.body, validates.params);
+    return validateParam(__request.method === Methods.Get ? __request.query : __request.body, validates.param || validates.params);
   }
   return Promise.resolve(false);
 }
@@ -20,10 +20,10 @@ module.exports = function (validates) {
 /**
  * 校验参数
  * @param body
- * @param params
+ * @param param
  */
-function validateParams(body, params) {
-  const validator = new Validator(body, params);
+function validateParam(body, param) {
+  const validator = new Validator(body, param);
   return validator.check().then((matched) => {
     if (!matched) {
       __request.validateFailed = true;

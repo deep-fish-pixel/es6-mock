@@ -23,7 +23,7 @@ function miniRequire(moduleName) {
   global.__parentPath = filePath.replace(/\/[^/]+$/, '');
 
   const { content, filename } = getContent(filePath) || {};
-  const params = [
+  const param = [
     'exports', 'module', 'require',
     '__dirname', '__filename',
     '$request', '$response',
@@ -38,7 +38,7 @@ function miniRequire(moduleName) {
       return `${$1} ${name}`;
     });
 
-  const fn = new Function(...params, `${data}\n ${exportConsts.join('\n')} \n return module.exports`);
+  const fn = new Function(...param, `${data}\n ${exportConsts.join('\n')} \n return module.exports`);
 
   const module = {
     exports: {}
