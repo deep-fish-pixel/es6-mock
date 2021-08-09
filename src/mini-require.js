@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const sleep = require('./sleep');
 const validate = require('./validate');
+const getFileContent = require('./getFileContent');
 
 const tails = ['.js', '.ts', '.jsx', '.vue'];
 
@@ -10,7 +11,7 @@ const tails = ['.js', '.ts', '.jsx', '.vue'];
  * @param moduleName
  * @returns {*}
  */
-function miniRequire(moduleName) {
+function miniRequire(moduleName, dir) {
   // 加载公共库
   if (moduleName && moduleName.match(/^[^.\/]/)) {
     return require(moduleName);
@@ -22,7 +23,7 @@ function miniRequire(moduleName) {
 
   global.__parentPath = filePath.replace(/\/[^/]+$/, '');
 
-  const { content, filename } = getContent(filePath) || {};
+  const { content, filename } = getFileContent(filePath, dir) || {};
   const param = [
     'exports', 'module', 'require',
     '__dirname', '__filename',
@@ -54,39 +55,6 @@ function miniRequire(moduleName) {
   // 恢复上一次操作
   global.__parentPath = prevParentPath;
   return result;
-}
-
-/**
- * 获取模块内容
- * @param moduleName
- * @returns {{filename, content: string}|*}
- */
-function getContent(moduleName) {
-  if (moduleName.match(/\.\w+$/)) {
-    return {
-      content: fs.readFileSync(moduleName, 'utf8'),
-      filename: moduleName
-    };
-  }
-  let result;
-
-  tails.some(tail => {
-    const filename = `${moduleName}${tail}`;
-
-    if (fs.existsSync(filename)) {
-      result = {
-        content: fs.readFileSync(filename, 'utf8'),
-        filename: filename,
-      };
-      return true;
-    }
-    return false;
-  });
-
-  if (result) {
-    return result;
-  }
-  throw Error(`the file not exists: ${moduleName}`);
 }
 
 /**

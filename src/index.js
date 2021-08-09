@@ -26,7 +26,7 @@ module.exports = function ({ dir, path: urlPath, bodyParserApp }) {
       try {
         global.__request = request;
         global.__response = response;
-        const content = miniRequire(file);
+        const content = miniRequire(file, path.join(process.cwd(), dir));
         if (request.validated) {
           sleep(0);
         }

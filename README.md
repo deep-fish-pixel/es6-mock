@@ -141,3 +141,23 @@ export default {
     params: getRequest().query
 };
 ```
+
+
+
+```angular2html
+// 支持*通配符操作 test9*.js
+// url地址：http://localhost:port/api/test9/xxxx
+
+import { sleep, validate } from 'es6-mock';
+
+sleep(500);
+
+validate({
+  method: 'get'
+});
+
+export default {
+  code: '01',
+  desc: 'xxx'
+};
+```
