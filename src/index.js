@@ -4,17 +4,23 @@ const bodyParser = require('body-parser');
 const miniRequire = require('./mini-require');
 const sleep = require('./sleep');
 const validate = require('./validate');
+const hotReload = require('./hotReload');
 
 /**
  * 中间件mock
  * @param dir
  * @param urlPath
+ * @param bodyParserApp app应用
+ * @param hotServer 热加载服务器
  * @returns {(function(*, *, *): void)|*}
  */
-module.exports = function ({ dir, path: urlPath, bodyParserApp }) {
+module.exports = function ({ dir, path: urlPath, bodyParserApp, hotServer }) {
   if (bodyParserApp) {
     bodyParserApp.use(bodyParser.urlencoded({extended: false}));
     bodyParserApp.use(bodyParser.json());
+  }
+  if (dir) {
+    hotReload(hotServer, dir);
   }
   return function (request, response, next) {
     if (request.path.indexOf(urlPath) === 0) {

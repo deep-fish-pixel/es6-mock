@@ -7,6 +7,7 @@
 * 内置 $sleep 延迟输出
 * 内置 $validate 进行params及method校验，params校验库：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
 * 支持 mockjs 输出mock格式的数据
+* 支持 热加载（需配置hotServer）
 
 ### Install
 Install with npm:
@@ -21,14 +22,16 @@ Install with npm:
 const es6Mock = require('es6-mock');
 
 devServer: {
-    before: function (app) {
+    before: function (app, server) {
         app.use(es6Mock({
             // 模拟数据js存放根目录
             dir: './mock',
             // url访问根路径名称 
             path: '/api',
             // add express bodyParser
-            bodyParserApp: app
+            bodyParserApp: app,
+            // 添加热加载
+            hotServer: server
         }));
     }
 }
