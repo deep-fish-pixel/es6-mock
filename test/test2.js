@@ -1,4 +1,5 @@
 // 支持mockjs  test2.js
+$sleep(1000);
 
 export default {
   code: 1000,
