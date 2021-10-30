@@ -1,14 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 
-const tails = ['.js', '.ts', '.jsx', '.vue'];
+const tails = ['.js', '.json'];
 
 /**
  * 获取存在的文件路径
  * @param moduleName
+ * @param dir
+ * @param originFilename
+ * @param delayCheckSelf
  * @returns {{filename, content: string}|*}
  */
-function getFilePath(moduleName, dir, originFilename) {
+function getFilePath(moduleName, dir, originFilename, delayCheckSelf) {
   let filePath = '';
   let isExist = false;
   if (moduleName.match(/\.\w+$/)) {
@@ -16,7 +19,7 @@ function getFilePath(moduleName, dir, originFilename) {
     filePath = moduleName;
   }
 
-  if (!isExist) {
+  if (!isExist && !delayCheckSelf) {
     isExist = tails.some(tail => {
       const filename = `${moduleName}${tail}`;
       if (fs.existsSync(filename)) {
@@ -29,12 +32,22 @@ function getFilePath(moduleName, dir, originFilename) {
 
   if (!isExist) {
     if(fs.existsSync(moduleName) && originFilename){
-      const files = fs.readdirSync(moduleName);
-      if (!originFilename.match(/\.\w+$/)) {
-        originFilename += '.js';
-      }
+      // 排序文件列表 匹配符*置后
+      const files = fs.readdirSync(moduleName).sort().reverse();
+      const hasTail = originFilename.match(/\.\w+$/);
+
       for (const file of files){
-        if (file.match(/\.\w+$/) && originFilename.match(new RegExp(file.replace(/\*/g, '.*')))) {
+        let tailMatch = file.match(/(\.\w+)$/);
+        let fullName = hasTail ? originFilename : `${originFilename}${tailMatch? tailMatch[0] : ''}`
+        if (file.match(/\.\w+$/)
+          && fullName.match(
+            new RegExp(`[\/]${
+              file
+              .replace(/\./g, '\\.')
+              .replace(/\*/g, '.*')
+            }$`)
+          )
+        ) {
           isExist = true;
           filePath = path.join(moduleName, file);
           break;
@@ -43,11 +56,22 @@ function getFilePath(moduleName, dir, originFilename) {
     }
   }
 
+  if (!isExist && delayCheckSelf) {
+    isExist = tails.some(tail => {
+      const filename = `${moduleName}${tail}`;
+      if (fs.existsSync(filename)) {
+        filePath = filename;
+        return true;
+      }
+      return false;
+    });
+  }
+
   if (!isExist && moduleName.indexOf(dir) === 0) {
     const parentPath = moduleName.replace(/\/[^\/]+\/?$/, '');
     // 更新当前父目录 用于require路径
     global.__parentPath = parentPath;
-    return getFilePath(parentPath, dir, originFilename || moduleName);
+    return getFilePath(parentPath, dir, originFilename || moduleName, true);
   }
 
   return {
