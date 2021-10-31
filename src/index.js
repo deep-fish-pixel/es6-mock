@@ -1,8 +1,10 @@
 const path = require('path');
 const Mock = require('mockjs');
 const bodyParser = require('body-parser');
+const requestQueue = require('./requestQueue');
 const miniRequire = require('./mini-require');
 const sleep = require('./sleep');
+const delay = require('./delay');
 const validate = require('./validate');
 const hotReload = require('./hotReload');
 
@@ -23,26 +25,32 @@ module.exports = function ({ dir, path: urlPath, bodyParserApp, hotServer }) {
     hotReload(hotServer, dir);
   }
   return function (request, response, next) {
+    console.log(request.path)
     if (request.path.indexOf(urlPath) === 0) {
-      const file = path.join('/', dir, `${
-        request.path.replace(urlPath, '')
-          .replace(/\.\w+/, '')
-          .replace(/\/$/, '')}`);
+      // 收集请求
+      requestQueue.push(() => {
+        const file = path.join('/', dir, `${
+          request.path.replace(urlPath, '')
+            .replace(/\.\w+/, '')
+            .replace(/\/$/, '')}`);
 
-      try {
-        global.__request = request;
-        global.__response = response;
-        const content = miniRequire(file, path.join(process.cwd(), dir));
-        if (request.validated) {
-          sleep(0);
+        try {
+          global.__request = request;
+          global.__response = response;
+          const content = miniRequire(file, path.join(process.cwd(), dir));
+          // 验证为异步，需要一个等待
+          return delay(0).then(() => {
+            // 验证通过时返回值
+            if (!request.validateFailed) {
+              response.json(Mock.mock(content || {}));
+            }
+          });
+        } catch (e) {
+          response.status(404).send(e.message);
         }
-        // 验证通过时返回值
-        if (!request.validateFailed) {
-          response.json(Mock.mock(content || {}));
-        }
-      } catch (e) {
-        response.status(404).send(e.message);
-      }
+      });
+      // 处理请求
+      requestQueue.exec();
     } else {
       next();
     }

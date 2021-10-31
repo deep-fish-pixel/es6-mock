@@ -1,6 +1,6 @@
 {
   "name": "es6-mock",
-  "version": "2.3.1",
+  "version": "2.4.1",
   "description": "es6-mock",
   "main": "src/index.js",
   "scripts": {
@@ -28,9 +28,10 @@
   },
   "homepage": "https://github.com/maweimaweima/es6-mock#readme",
   "dependencies": {
-    "chokidar": "^3.5.2",
+    "atomic-sleep": "^1.0.0",
     "body-parser": "^1.19.0",
-    "deasync": "^0.1.21",
+    "chokidar": "^3.5.2",
+    "friendly-linkedlist": "^1.0.2",
     "mockjs": "^1.1.0",
     "node-input-validator": "^4.4.1"
   },

@@ -1,5 +1,5 @@
-const deasync = require('deasync');
+const sleep = require('atomic-sleep');
 
 module.exports = function(time) {
-  deasync.sleep(time);
+  sleep(time);
 };

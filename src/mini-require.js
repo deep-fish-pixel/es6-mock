@@ -1,10 +1,7 @@
-const fs = require('fs');
 const path = require('path');
 const sleep = require('./sleep');
 const validate = require('./validate');
 const getFileContent = require('./getFileContent');
-
-const tails = ['.js', '.ts', '.jsx', '.vue'];
 
 /**
  * 微型模块加载器
