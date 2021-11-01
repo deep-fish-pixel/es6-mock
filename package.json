@@ -1,6 +1,6 @@
 {
   "name": "es6-mock",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "es6-mock",
   "main": "src/index.js",
   "scripts": {

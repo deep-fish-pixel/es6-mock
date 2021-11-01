@@ -12,6 +12,11 @@ module.exports = {
       return;
     }
     executing = true;
+    const next = () => {
+      executing = false;
+      // 下一层循环检查
+      this.exec();
+    }
     try{
       const callback = linkedList.removeFirst();
       if(callback){
@@ -27,12 +32,6 @@ module.exports = {
     } catch (e) {
       console.error(e);
       next();
-    }
-
-    const next = () => {
-      executing = false;
-      // 下一层循环检查
-      this.exec();
     }
   },
 };
