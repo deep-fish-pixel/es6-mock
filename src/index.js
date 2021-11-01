@@ -25,7 +25,6 @@ module.exports = function ({ dir, path: urlPath, bodyParserApp, hotServer }) {
     hotReload(hotServer, dir);
   }
   return function (request, response, next) {
-    console.log(request.path)
     if (request.path.indexOf(urlPath) === 0) {
       // 收集请求
       requestQueue.push(() => {
