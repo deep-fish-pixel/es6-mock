@@ -11,7 +11,7 @@ This tool makes mock data friendly and powerful.
   
 * Supports [mockjs](http://mockjs.com/examples.html) data template rule
 * Supply dynamic url path wildcard match：one ```*``` only match mock filename，double and serial ```**``` will match multi pathes and filename
-* Supports Hot Reload（Config hotServer）
+* Supports HMR（Config hotServer）
 
 ### Install
 Install with npm:

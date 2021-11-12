@@ -12,7 +12,7 @@ sleep(500);
 
 // 校验数据
 validate({
-  // 参数校验
+  // 参数校验类型、格式等及是否必选
   param: {
     name: 'required|string',
     id: 'required|integer'
@@ -31,8 +31,10 @@ export default {
     // 组装其他mock数据，数据量大的时候非常有用
     test1,
     test2,
-    // 获取请求参数
+    // 获取请求get参数
     param: request.query,
+    // 获取请求post参数
+    param2: request.body,
     // 支持node各种骚操作
     existTest1: fs.existsSync(path.join(__dirname, 'test1.js')),
     existTest0: fs.existsSync(path.join(__dirname, 'no-exist.js'))

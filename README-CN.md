@@ -5,9 +5,9 @@ mock数据更友好和强大
 * 支持 request、response、sleep(延迟返回ms)、validate(验证 参数和请求方式)
 * 使用 validate 进行params及method校验
   
-    Params校验规则参考：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
+    params校验规则参考：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
 
-    Method校验支持 ```get|post|put|delete|patch```
+    method校验方式支持 ```get|post|put|delete|patch```
   
 * 支持 [mockjs](http://mockjs.com/examples.html) 数据模板语法
 * 提供url动态路径匹配的通配符功能：一个 ```*``` 只匹配mock文件名，2个 ```**``` 匹配mock的多级路径名及文件名
@@ -79,8 +79,10 @@ export default {
       // 组装其他mock数据，数据量大的时候非常有用
       test1,
       test2,
-      // 获取请求参数
+      // 获取请求get参数
       param: request.query,
+      // 获取请求post参数
+      param2: request.body,
       // 支持node各种骚操作
       existTest1: fs.existsSync(path.join(__dirname, 'test1.js')),
       existTest0: fs.existsSync(path.join(__dirname, 'no-exist.js'))
