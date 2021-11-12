@@ -1,7 +1,7 @@
 # es6-mock [中文](./README-CN.md)
 This tool makes mock data friendly and powerful.
 
-* Supports es6 import/export. import module util, export json object.
+* Supports es6 import/export. import module lib, export json data.
 * Supports request、response、sleep(delay response time)、validate(validate request params and method)
 * Use Validate validates request params type and method
 
@@ -43,7 +43,7 @@ module.exports =  {
 }
 ```
 
-### Base Example：
+### Mock Data Example
 
 ```javascript
 // Import lib
@@ -98,8 +98,8 @@ It is necessary to match the appropriate mock file and respond to the content.
 
 * Mock filename use ```*``` and ```**```, these can be used in combination with letters.
 * One ```*``` indicates that only match file name, Serie double ```**``` match multi-level pathes and a file name.
-* When wildcards are combined with letters, pay attention to the position of wildcards, which are divided into front matching(```*test.js```), middle matching(```*test*.js```) and tail matching(```test*.js```)
-* Note the matching order of file name wildcards. The file name without wildcards has the highest priority, the all-round wildcards have the lowest priority, then a single wildcard, and finally two consecutive wildcards.
+* When wildcards are combined with letters, pay attention to the position of wildcards, which are divided into front matching(```*test.js```), front&tail matching(```*test*.js```) and tail matching(```test*.js```)
+* Note the matching order of file name wildcards. The file name without wildcards has the highest priority, then a single wildcard, and then two consecutive wildcards, the all-round wildcards have the lowest priority.
 
   If a mock folder directory has the following file list:
   
@@ -118,7 +118,7 @@ It is necessary to match the appropriate mock file and respond to the content.
     ```
 
   Match in sequence according to the list. If the matching is successful, the matching ends, and the request response returns the contents of the file:
-  * Priority matching file name: test.js (url: /api/wildcard/test)
+  * Priority match file name: test.js (url: /api/wildcard/test)
   * Then match the file name: test*.js (url: /api/wildcard/test222)
   * Then match the file name: *test.js (url: /api/wildcard/111test)
   * Then match the file name: *.js (url: /api/wildcard/111test222)
@@ -126,6 +126,6 @@ It is necessary to match the appropriate mock file and respond to the content.
   * Then match the file name: test**.js (url: /api/wildcard/test111/222)
   * Then match the file name: **test.js (url: /api/wildcard/111/222test)
   * Then match the file name: ```**```test```**```.js (url: /api/wildcard/111/222test333/444)
-  * Then match the file name: **.js (url: /api/wildcard/111/222/333)
+  * Last match the file name: **.js (url: /api/wildcard/111/222/333)
 
   _Tip：The URL in parentheses in each line can successfully obtain the content of the current mock file as a response_

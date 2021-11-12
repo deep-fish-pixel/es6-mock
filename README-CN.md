@@ -2,7 +2,7 @@
 mock数据更友好和强大
 
 * 支持 es6 import/export, import导入库，export输出数据对象
-* 支持 request、response、sleep(延迟返回ms)、validate(验证 参数和请求方式)
+* 支持 request、response、sleep(延迟响应ms)、validate(验证 参数和请求方式)
 * 使用 validate 进行params及method校验
   
     params校验规则参考：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
@@ -43,7 +43,7 @@ module.exports =  {
 }
 ```
 
-### Base Example：
+### Mock Data Example
 
 ```javascript
 // import 导入工具库
@@ -96,8 +96,8 @@ export default {
 
 * 在mock文件名称中使用 ```*``` 和 ```**```，可以与字母组合使用。
 * 一个 ```*``` 表示只匹配文件名称，连续 ```**``` 匹配多级路径名称和一个文件名称。
-* 通配符与字母组合使用时，注意通配符位置，分为前匹配(```*test.js```) 居中匹配(```*test*.js```) 后匹配(```test*.js```)
-* 注意通配符的匹配顺序，无通配符的优先级最高，全通配符的最低，然后是单独1个通配符，最后是2个连续通配符。
+* 通配符与字母组合使用时，注意通配符位置，分为前匹配(```*test.js```) 前后匹配(```*test*.js```) 后匹配(```test*.js```)
+* 注意通配符的匹配顺序，无通配符的优先级最高，单独1个通配符次之，然后是2个连续通配符，全通配符的优先级最低。
   
   如果一个mock文件夹目录存在如下的文件列表：
   
@@ -115,7 +115,7 @@ export default {
             **.js
     ```
   
-  按照列表依次匹配，匹配成功则结束匹配，并请求响应返回该文件内容：
+  按照列表依次匹配，匹配成功则结束匹配，并以该文件内容作为请求响应：
   * 优先匹配文件名: test.js (url: /api/wildcard/test)
   * 然后匹配文件名: test*.js (url: /api/wildcard/test222)
   * 然后匹配文件名: *test.js (url: /api/wildcard/111test)
@@ -124,6 +124,6 @@ export default {
   * 然后匹配文件名: test**.js (url: /api/wildcard/test111/222)
   * 然后匹配文件名: **test.js (url: /api/wildcard/111/222test)
   * 然后匹配文件名: ```**```test```**```.js (url: /api/wildcard/111/222test333/444)
-  * 然后匹配文件名: **.js (url: /api/wildcard/111/222/333)
+  * 最后匹配文件名: **.js (url: /api/wildcard/111/222/333)
 
   _提示：每行小括号中url可以成功获取到为当前的mock文件的内容做为响应_
