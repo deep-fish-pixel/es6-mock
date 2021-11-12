@@ -98,8 +98,8 @@ It is necessary to match the appropriate mock file and respond to the content.
 
 * Mock filename use ```*``` and ```**```, these can be used in combination with letters.
 * One ```*``` indicates that only match file name, Serie double ```**``` match multi-level pathes and a file name.
-* When wildcards are combined with letters, pay attention to the position of wildcards, which are divided into front matching(```*test.js```) tail matching(```test*.js```) front&tail matching(```*test*.js```)  whole matching(```*.js```)
-* Note the matching order of file name wildcards. The file name without wildcards has the highest priority, then a single wildcard(The order of internal wildcard positions is: front、tail、front&tail、whole matching), and then two consecutive wildcards(The order of internal wildcard positions is: front、tail、front&tail、whole matching).
+* When wildcards are combined with letters, pay attention to the position of wildcards, which are divided into tail matching(```test*.js```) front matching(```*test.js```)  front&tail matching(```*test*.js```)  whole matching(```*.js```)
+* Note the matching order of file name wildcards. The file name without wildcards has the highest priority, then a single wildcard(The order of internal wildcard positions is: tail、front、front&tail、whole matching), and then two consecutive wildcards(The order of internal wildcard positions is: tail、front、front&tail、whole matching).
 
   If a mock folder directory has the following file list:
   
