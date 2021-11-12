@@ -58,7 +58,7 @@ import test2 from './test2';
 // Delay response 500ms
 sleep(500);
 
-// Validate request 
+// Validate request （If validate failed, will return validate messages as response）
 validate({
     // Validate param required、 type or format
     param: {
@@ -69,7 +69,7 @@ validate({
     method: 'get|post'
 });
 
-// Export mock data
+// Export mock data，if validate pass
 export default {
     // Use mockjs data template
     'code|1-10': '0',

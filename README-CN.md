@@ -58,7 +58,7 @@ import test2 from './test2';
 // 延迟500ms
 sleep(500);
 
-// 校验数据
+// 校验数据（如果校验不通过，则返回详细的校验错误作为请求响应）
 validate({
     // 参数校验类型、格式等及是否必选
     param: {
@@ -69,7 +69,7 @@ validate({
     method: 'get'
 });
 
-// 导出mock数据
+// 校验通过后，导出mock数据作为请求响应
 export default {
     // 使用mockjs数据模板
     'code|1-10': '0',
