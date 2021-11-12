@@ -43,7 +43,7 @@ module.exports =  {
 }
 ```
 
-### Example1：
+### Base Example：
 
 ```javascript
 // import 导入工具库
