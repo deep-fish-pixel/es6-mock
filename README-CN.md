@@ -69,7 +69,7 @@ validate({
     method: 'get'
 });
 
-// 校验通过后，导出mock数据作为请求响应
+// 校验通过后，则以导出mock数据作为请求响应
 export default {
     // 使用mockjs数据模板
     'code|1-10': '0',
