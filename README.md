@@ -93,7 +93,7 @@ export default {
 
 ### Instructions for using wildcards
 
-Use wildcard resolve url often occur paths containing dynamic parameters such as ID, 
+Use wildcard resolve url often occur paths containing dynamic params such as ID、RESTful API, 
 It is necessary to match the appropriate mock file and respond to the content.
 
 * Mock filename use ```*``` and ```**```, these can be used in combination with letters.
