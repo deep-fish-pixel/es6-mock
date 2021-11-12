@@ -14,11 +14,11 @@ sleep(500);
 validate({
   // 参数校验
   param: {
-    name: 'required',
-    id: 'required'
+    name: 'required|string',
+    id: 'required|integer'
   },
   // 请求方法校验
-  method: 'get'
+  method: 'get|post'
 });
 
 // 导出mock数据

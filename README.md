@@ -1,12 +1,17 @@
-# es6-mock
-使mock数据更简便友好，mock2更强大
+# es6-mock [中文](./README-CN.md)
+This tool makes mock data friendly and powerful.
 
-* 支持 es6 import/export, import导入库，export输出数据对象
-* 支持 request、response、sleep(延迟返回ms)、validate(验证 参数和请求方式)
-* 使用 validate 进行params及method校验，params校验规则参考：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
-* 支持 [mockjs](http://mockjs.com/examples.html) 数据模板语法
-* 提供url动态路径匹配的通配符功能：一个 ```*``` 只匹配mock文件名，2个 ```**``` 匹配mock的多级路径名及文件名
-* 支持 热加载（需配置hotServer）
+* Supports es6 import/export. import module util, export json object.
+* Supports request、response、sleep(delay response time)、validate(validate request params and method)
+* Use Validate validates request params type and method
+
+  Params rule references：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
+  
+  Method can check one or some of this list: ```get|post|put|delete|patch```
+  
+* Supports [mockjs](http://mockjs.com/examples.html) data template rule
+* Supply dynamic url path wildcard match：one ```*``` only match mock filename，double and serial ```**``` will match multi pathes and filename
+* Supports Hot Reload（Config hotServer）
 
 ### Install
 Install with npm:
@@ -15,7 +20,7 @@ Install with npm:
 
 ### Uses
 
-在webpack.config.js或vue.config.js的devServer中配置
+Config webpack.config.js or vue.config.js devServer property
 
 ```javascript
 const es6Mock = require('es6-mock');
@@ -24,13 +29,13 @@ module.exports =  {
   devServer: {
     before: function (app, server) {
       app.use(es6Mock({
-        // 模拟数据js存放根目录
+        // Set mock file`s root
         dir: './mock',
-        // url访问根路径名称 
+        // Url root path 
         path: '/api',
-        // add express bodyParser
+        // Add express bodyParser
         bodyParserApp: app,
-        // 添加热加载
+        // Set Hot Reload
         hotServer: server
       }));
     }
@@ -38,45 +43,47 @@ module.exports =  {
 }
 ```
 
-### Example1：
+### Base Example：
 
 ```javascript
-// import 导入工具库
+// Import lib
 import path from 'path';
 import fs from 'fs';
 import { sleep, validate, request } from 'es6-mock';
 
-// import 导入其他mock模块
+// Import other mock datas
 import test1 from './test1';
 import test2 from './test2';
 
-// 延迟500ms
+// Delay response 500ms
 sleep(500);
 
-// 校验数据
+// Validate request 
 validate({
-    // 参数校验
+    // Validate param required、 type or format
     param: {
-        name: 'required',
-        id: 'required'
+        name: 'required|string',
+        id: 'required|integer'
     },
-    // 请求方法校验
-    method: 'get'
+    // Validate request method
+    method: 'get|post'
 });
 
-// 导出mock数据
+// Export mock data
 export default {
-    // 使用mockjs数据模板
+    // Use mockjs data template
     'code|1-10': '0',
     data: {
       "switch|1-2": true,
       name: 'test03.js',
-      // 组装其他mock数据，数据量大的时候非常有用
+      // Use other mock data. This will very useful in large data content
       test1,
       test2,
-      // 获取请求参数
+      // Get request get param
       param: request.query,
-      // 支持node各种骚操作
+      // Get request post param
+      param2: request.body,
+      // Support node various operations
       existTest1: fs.existsSync(path.join(__dirname, 'test1.js')),
       existTest0: fs.existsSync(path.join(__dirname, 'no-exist.js'))
     }
@@ -84,26 +91,17 @@ export default {
 ```
 
 
-### 通配符使用说明
-使用通配符解决url中经常出现包含id等动态参数的路径情况，需要匹配到合适的mock文件并响应内容。
+### Instructions for using wildcards
 
-* 在mock文件名称中使用 ```*``` 和 ```**```，可以与字母组合使用，位置不限。
-* 一个 ```*``` 表示只匹配文件名称，连续 ```**``` 匹配多级路径名称和一个文件名称。
-* 通配符与字母组合使用时，注意通配符位置，分为前匹配(```*test.js```) 中匹配(```*test*.js```) 后匹配(```test*.js```)
-* 注意通配符的匹配顺序，无通配符的优先级最高，全通配符的最低，然后是单独1个通配符，最后是2个连续通配符。
-  如果一个mock文件夹目录如下，每个文件对应访问路径url路径在小括号中。
-  
-  按照列表依次匹配，匹配成功则结束匹配，并返回文件内容：
-  * 优先匹配文件名称test.js(/api/wildcard/test)
-  * 再匹配文件名称test*.js(/api/wildcard/test222)
-  * 再匹配文件名称*test.js(/api/wildcard/111test)
-  * 再匹配文件名称*.js(/api/wildcard/111test222)
-  * 再匹配文件名称```*```test```*```.js(/api/wildcard/111test222)
-  * 再匹配文件名称test**.js(/api/wildcard/test111/222)
-  * 再匹配文件名称**test.js(/api/wildcard/111/222test)
-  * 再匹配文件名称```**```test```**```.js(/api/wildcard/111/222test333/444)
-  * 再匹配文件名称**.js(/api/wildcard/111/222/333)
-    
+Use wildcard resolve url often occur paths containing dynamic parameters such as ID, 
+It is necessary to match the appropriate mock file and respond to the content.
+
+* Mock filename use ```*``` and ```**```, these can be used in combination with letters.
+* One ```*``` indicates that only match file name, Serie double ```**``` match multi-level pathes and a file name.
+* When wildcards are combined with letters, pay attention to the position of wildcards, which are divided into front matching(```*test.js```), middle matching(```*test*.js```) and tail matching(```test*.js```)
+* Note the matching order of file name wildcards. The file name without wildcards has the highest priority, the all-round wildcards have the lowest priority, then a single wildcard, and finally two consecutive wildcards.
+
+  If a mock folder directory has the following file list:
   
     ```html
     mock dir:
@@ -118,3 +116,16 @@ export default {
             **test**.js
             **.js
     ```
+
+  Match in sequence according to the list. If the matching is successful, the matching ends, and the request response returns the contents of the file:
+  * Priority matching file name: test.js (url: /api/wildcard/test)
+  * Then match the file name: test*.js (url: /api/wildcard/test222)
+  * Then match the file name: *test.js (url: /api/wildcard/111test)
+  * Then match the file name: *.js (url: /api/wildcard/111test222)
+  * Then match the file name: ```*```test```*```.js (url: /api/wildcard/111test222)
+  * Then match the file name: test**.js (url: /api/wildcard/test111/222)
+  * Then match the file name: **test.js (url: /api/wildcard/111/222test)
+  * Then match the file name: ```**```test```**```.js (url: /api/wildcard/111/222test333/444)
+  * Then match the file name: **.js (url: /api/wildcard/111/222/333)
+
+  _Tip：The URL in parentheses in each line can successfully obtain the content of the current mock file as a response_
