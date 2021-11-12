@@ -1,5 +1,5 @@
 # es6-mock
-使mock数据更简便友好，mock2更强大
+mock数据更友好和强大
 
 * 支持 es6 import/export, import导入库，export输出数据对象
 * 支持 request、response、sleep(延迟返回ms)、validate(验证 参数和请求方式)
