@@ -1,10 +1,19 @@
-// 支持mockjs  test2.js
-$sleep(1000);
+import { sleep, validate, request } from '../src/index';
+
+// 延迟500ms
+sleep(500);
+
+// 校验数据
+validate({
+  param: {
+    name: 'required',
+    id: 'required'
+  },
+  method: 'get'
+});
 
 export default {
-  code: 1000,
-  data: {
-    'star|1-10': '★',
-    'switch|1-2': true
-  }
+  'result_code|1-10': '0',
+  data: 'test2.js',
+  param: request.query
 };

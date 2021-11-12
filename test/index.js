@@ -8,4 +8,4 @@ app.use(mock({
 }));
 
 app.listen(8000);
-console.log('start success=======', 'http://localhost:8000/api/test/test1')
+console.log('start success=======', 'http://localhost:8000/api/test/test1?name=xx&&id=ss')

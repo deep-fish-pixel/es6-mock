@@ -1,8 +1,20 @@
-// 使用sleep test1.js
+import { sleep, validate, request } from '../src/index';
 
-$sleep(1000);
+// 延迟500ms
+sleep(500);
+
+// 校验数据
+validate({
+  // 参数校验
+  param: {
+    name: 'required',
+    id: 'required'
+  },
+  // 请求方法校验
+  method: 'get'
+});
 
 export default {
-  code: 1000,
-  data: 'test1'
+  data: 'test1.js',
+  param: request.query
 };

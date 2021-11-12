@@ -36,6 +36,10 @@ module.exports = function ({ dir, path: urlPath, bodyParserApp, hotServer }) {
         try {
           global.__request = request;
           global.__response = response;
+          Object.assign(module.exports, {
+            request: global.__request,
+            response: global.__response,
+          });
           const content = miniRequire(file, path.join(process.cwd(), dir));
           // 验证为异步，需要一个等待
           return delay(0).then(() => {
@@ -59,6 +63,8 @@ module.exports = function ({ dir, path: urlPath, bodyParserApp, hotServer }) {
 Object.assign(module.exports, {
   sleep,
   validate,
+  request: global.__request,
+  response: global.__response,
   getRequest: function (){
     return global.__request;
   },
