@@ -9,5 +9,5 @@ validate({
 
 export default {
   code: '0001',
-  data: 'test-wildcard/**.js'
+  data: 'wildcard/list.js'
 };
