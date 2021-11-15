@@ -9,7 +9,7 @@
     "pub": "sh publish.sh",
     "pubin": "npm publish --registry http://npm-registry.nevint.com/repository/npm-host/",
     "puball": "npm run pub && npm run pubin",
-    "test": "echo \\\"Error: no dist specified\\\" && exit 1"
+    "test": "node ./test/test/testAll"
   },
   "repository": {
     "type": "git",

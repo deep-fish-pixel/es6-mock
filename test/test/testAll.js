@@ -7,12 +7,13 @@ const urls = [
   'http://localhost:8000/api/test/wildcard/test',
   'http://localhost:8000/api/test/wildcard/111test',
   'http://localhost:8000/api/test/wildcard/test222',
+  'http://localhost:8000/api/test/wildcard/111test222',
   'http://localhost:8000/api/test/wildcard/111222',
-  'http://localhost:8000/api/test/wildcard/sss/111test',
+  'http://localhost:8000/api/test/wildcard/111/test',
   'http://localhost:8000/api/test/wildcard/test222/xxx/zzz',
   'http://localhost:8000/api/test/wildcard/sss/111/sss-test-aaa/222/xxx',
-  'http://localhost:8000/api/test/wildcard/sss/test/xxxx',
-  'http://localhost:8000/api/test/wildcard/111/222/333/444'
+  'http://localhost:8000/api/test/wildcard/111/222/333/444',
+  'http://localhost:8000/api/test/wildcard/sss/test/xxxx'
 ];
 urls.forEach((url) => {
   fetch(url)

@@ -47,9 +47,7 @@ module.exports = function ({ dir, path: urlPath, bodyParserApp, hotServer }) {
             if (!request.validateFailed) {
               response.json(Mock.mock(content || {}));
             }
-          }).catch(e => {
-            console.error(e);
-          });
+          }).catch(() => {});
         } catch (e) {
           response.status(404).send(e.message);
         }
