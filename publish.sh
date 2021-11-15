@@ -7,5 +7,5 @@ cp package.json dist/package.json
 echo 复制README.md
 cp README.md dist/README.md
 echo 开始发布
-cd dist && npm publish && cd ..
+cd dist && npm publish && cd .. && rf -rf dist
 echo 发布完成
