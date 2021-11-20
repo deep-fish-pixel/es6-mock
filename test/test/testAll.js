@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 const urls = [
   'http://localhost:8000/api/test/test1?name=xx&&id=ss',
-  'http://localhost:8000/api/test/test2',
+  'http://localhost:8000/api/test/test2?name=xx&&id=ss',
   'http://localhost:8000/api/test/test3?name=xx&&id=111',
   'http://localhost:8000/api/test/wildcard/test',
   'http://localhost:8000/api/test/wildcard/111test',

@@ -1,6 +1,6 @@
-import { sleep, validate } from '../../src/index';
+import { delay, validate } from '../../src/index';
 
-sleep(500);
+delay(600);
 
 validate({
   param: {},

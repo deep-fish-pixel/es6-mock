@@ -2,7 +2,7 @@
 This tool makes mock data friendly and powerful.
 
 * Supports es6 import/export. import module lib, export json data.
-* Supports request、response、sleep(delay response time)、validate(validate request params and method)
+* Supports request、response、delay(delay response time)、validate(validate request params and method)
 * Use Validate validates request params type and method
 
   Params rule references：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
@@ -34,7 +34,7 @@ module.exports =  {
         // Url root path 
         path: '/api',
         // Add express bodyParser
-        bodyParserApp: app,
+        app: app,
         // Set Hot Reload
         hotServer: server
       }));
@@ -56,7 +56,7 @@ import test1 from './test1';
 import test2 from './test2';
 
 // Delay response 500ms
-sleep(500);
+delay(500);
 
 // Validate request （If validate failed, will return validate messages as response）
 validate({
@@ -98,8 +98,8 @@ It is necessary to match the appropriate mock file and respond to the content.
 
 * Mock filename use ```*``` and ```**```, these can be used in combination with letters.
 * One ```*``` indicates that only match file name, Serie double ```**``` match multi-level pathes and a file name.
-* When wildcards are combined with letters, pay attention to the position of wildcards, which are divided into tail matching(```test*.js```) front matching(```*test.js```)  front&tail matching(```*test*.js```)  whole matching(```*.js```)
-* Note the matching order of file name wildcards. The file name without wildcards has the highest priority, then a single wildcard(The order of internal wildcard positions is: tail、front、front&tail、whole matching), and then two consecutive wildcards(The order of internal wildcard positions is: tail、front、front&tail、whole matching).
+* When wildcards are combined with letters, pay attention to the position of wildcards, which are divided into front matching(```test*.js```) tail matching(```*test.js```)  middle matching(```*test*.js```)  whole matching(```*.js```)
+* Note the matching order of file name wildcards. The file name without wildcards has the highest priority, then a single wildcard(The order of internal wildcard positions is: front、tail、middle、whole matching), and then two consecutive wildcards(The order of internal wildcard positions is: tail、front、front&tail、whole matching).
 
   If a mock folder directory has the following file list:
   
