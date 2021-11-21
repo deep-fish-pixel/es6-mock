@@ -1,9 +1,9 @@
 const path = require('path');
 const Mock = require('mockjs');
 const bodyParser = require('body-parser');
-const requestQueue = require('./requestQueue');
 const miniRequire = require('./mini-require');
 const sleep = require('./sleep');
+const handleResponse = require('./handleResponse');
 const delay = require('./delay');
 const validate = require('./validate');
 const hotReload = require('./hotReload');
@@ -13,47 +13,45 @@ const hotReload = require('./hotReload');
  * @param dir
  * @param urlPath
  * @param bodyParserApp app应用
+ * @param app app应用
  * @param hotServer 热加载服务器
  * @returns {(function(*, *, *): void)|*}
  */
-module.exports = function ({ dir, path: urlPath, bodyParserApp, hotServer }) {
-  if (bodyParserApp) {
-    bodyParserApp.use(bodyParser.urlencoded({extended: false}));
-    bodyParserApp.use(bodyParser.json());
+module.exports = function ({ dir, path: urlPath, bodyParserApp, app, hotServer }) {
+  app = app || bodyParserApp;
+  if (app) {
+    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(bodyParser.json());
   }
   if (dir) {
     hotReload(hotServer, dir);
   }
   return function (request, response, next) {
     if (request.path.indexOf(urlPath) === 0) {
-      // 收集请求
-      requestQueue.push(() => {
-        const file = path.join('/', dir, `${
-          request.path.replace(urlPath, '')
-            .replace(/\.\w+/, '')
-            .replace(/\/$/, '')}`);
+      const file = path.join('/', dir, `${
+        request.path.replace(urlPath, '')
+          .replace(/\.\w+/, '')
+          .replace(/\/$/, '')}`);
 
-        try {
-          global.__request = request;
-          global.__response = response;
-          Object.assign(module.exports, {
-            request: global.__request,
-            response: global.__response,
-          });
-          const content = miniRequire(file, path.join(process.cwd(), dir));
-          // 验证为异步，需要一个等待
-          return delay(0).then(() => {
-            // 验证通过时返回值
-            if (!request.validateFailed) {
-              response.json(Mock.mock(content || {}));
-            }
-          }).catch(() => {});
-        } catch (e) {
-          response.status(404).send(e.message);
-        }
-      });
-      // 处理请求
-      requestQueue.exec();
+      try {
+        global.__request = request;
+        global.__response = response;
+        Object.assign(module.exports, {
+          request: global.__request,
+          response: global.__response,
+        });
+        delay.init(request, response);
+        validate.init(request, response);
+        const content = miniRequire(file, path.join(process.cwd(), dir));
+        // 验证和延迟为异步
+        return handleResponse(request, response).then((result) => {
+          if (result) {
+            response.json(Mock.mock(content || {}));
+          }
+        }).catch(() => {});
+      } catch (e) {
+        response.status(404).send(e.message);
+      }
     } else {
       next();
     }
@@ -62,7 +60,12 @@ module.exports = function ({ dir, path: urlPath, bodyParserApp, hotServer }) {
 
 Object.assign(module.exports, {
   sleep,
-  validate,
+  delay: (time) => {
+    global.__request.delay.add(time);
+  },
+  validate: (validates) => {
+    global.__request.validate.add(validates);
+  },
   request: global.__request,
   response: global.__response,
   getRequest: function (){

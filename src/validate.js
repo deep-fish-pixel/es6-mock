@@ -9,25 +9,22 @@ const Methods = {
 };
 
 
-module.exports = function (validates) {
-  __request.validated = true;
-  if(!validateMethod(validates.method)){
-    return validateParam(__request.method === Methods.Get ? __request.query : __request.body, validates.param || validates.params);
-  }
-  return Promise.resolve(false);
-}
-
 /**
  * 校验参数
- * @param body
- * @param param
+ * @param request
+ * @param response
+ * @param validates
  */
-function validateParam(body, param) {
-  const validator = new Validator(body, param);
+function validateParam(request, response, validates) {
+  const validator = new Validator(
+    request.method === Methods.Get
+    ? request.query
+    : request.body,
+    validates.param || validates.params);
   return validator.check().then((matched) => {
     if (!matched) {
-      __request.validateFailed = true;
-      __response.status(422).send(validator.errors);
+      response.status(422).send(validator.errors);
+      return false;
     }
     return true;
   });
@@ -35,20 +32,46 @@ function validateParam(body, param) {
 
 /**
  * 验证请求method 'get|post|put|delete|patch'
+ * @param request
+ * @param response
  * @param method
  * @returns {boolean}
  */
-function validateMethod(method){
+function validateMethod(request, response, method){
   if (method) {
-    const requestMethod = __request.method;
+    const requestMethod = request.method;
     const methods = method.split('|').map(item => item.toUpperCase());
     if(!methods.some(method => method === requestMethod)){
-      __request.validateFailed = true;
-      __response.status(422).send({
+      response.status(422).send({
         method: `The request method is ${requestMethod}, doesn't support ${method.toUpperCase()}`
       });
-      return true;
+      return false;
     }
   }
-  return false;
+  return true;
+}
+
+function validate(request, response, validates) {
+  if(validateMethod(request, response, validates.method)){
+    return validateParam(request, response, validates);
+  }
+  return Promise.resolve(true);
+}
+
+module.exports = validate;
+
+module.exports.init = function (request, response) {
+  request.validate = {
+    value: {
+      param: {},
+      method: ''
+    },
+    add(validates) {
+      Object.assign(this.value.param, validates.param);
+      this.value.method = validates.method;
+    },
+    exec(){
+      return validate(request, response, this.value);
+    }
+  }
 }

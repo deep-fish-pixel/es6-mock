@@ -2,7 +2,7 @@
 mock数据更友好和强大
 
 * 支持 es6 import/export, import导入库，export输出数据对象
-* 支持 request、response、sleep(延迟响应ms)、validate(验证 参数和请求方式)
+* 支持 request、response、delay(延迟响应ms)、validate(验证 参数和请求方式)
 * 使用 validate 进行params及method校验
   
     params校验规则参考：[node-input-validator](https://www.npmjs.com/package/node-input-validator)
@@ -33,8 +33,8 @@ module.exports =  {
         dir: './mock',
         // url访问根路径名称 
         path: '/api',
-        // add express bodyParser
-        bodyParserApp: app,
+        // add express json bodyParser
+        app: app,
         // 添加热加载
         hotServer: server
       }));
@@ -49,14 +49,14 @@ module.exports =  {
 // import 导入工具库
 import path from 'path';
 import fs from 'fs';
-import { sleep, validate, request } from 'es6-mock';
+import { delay, validate, request } from 'es6-mock';
 
 // import 导入其他mock模块
 import test1 from './test1';
 import test2 from './test2';
 
 // 延迟500ms
-sleep(500);
+delay(500);
 
 // 校验数据（如果校验不通过，则返回详细的校验错误作为请求响应）
 validate({
@@ -96,8 +96,8 @@ export default {
 
 * 在mock文件名称中使用 ```*``` 和 ```**```，可以与字母组合使用。
 * 一个 ```*``` 表示只匹配文件名称，连续 ```**``` 匹配多级路径名称和一个文件名称。
-* 通配符与字母组合使用时，注意通配符位置，分为后匹配(```test*.js```) 前匹配(```*test.js```) 前后匹配(```*test*.js```) 全匹配(```*.js```)
-* 注意文件名通配符的匹配顺序，无通配符的优先级最高，1个通配符次之（内部根据通配符位置的顺序：后匹配 前匹配 前后匹配 全匹配），然后是2个连续通配符（内部根据通配符位置的顺序：后匹配 前匹配 前后匹配 全匹配）。
+* 通配符与字母组合使用时，注意通配符位置，分为前匹配(```test*.js```) 后匹配(```*test.js```) 居中匹配(```*test*.js```) 全匹配(```*.js```)
+* 注意文件名通配符的匹配顺序，无通配符的优先级最高，1个通配符次之（内部根据通配符位置的顺序： 前匹配 后匹配 居中匹配 全匹配），然后是2个连续通配符（内部根据通配符位置的顺序：后匹配 前匹配 前后匹配 全匹配）。
   
   如果一个mock文件夹目录存在如下的文件列表：
   

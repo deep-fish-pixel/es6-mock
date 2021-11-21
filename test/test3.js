@@ -1,14 +1,14 @@
 // import 导入工具库
 import path from 'path';
 import fs from 'fs';
-import { sleep, validate, request } from '../src';
+import { delay, validate, request } from '../src';
 
 // import 导入其他mock模块
 import test1 from './test1';
 import test2 from './test2';
 
-// 延迟500ms
-sleep(500);
+// 延迟ms
+delay(400);
 
 // 校验数据
 validate({

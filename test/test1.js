@@ -1,7 +1,7 @@
-import { sleep, validate, request } from '../src/index';
+import { delay, validate, request } from '../src/index';
 
-// 延迟500ms
-sleep(500);
+// 延迟ms
+delay(200);
 
 // 校验数据
 validate({

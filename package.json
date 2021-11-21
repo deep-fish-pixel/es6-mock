@@ -1,13 +1,12 @@
 {
   "name": "es6-mock",
-  "version": "2.5.4",
+  "version": "2.6.0",
   "description": "es6-mock",
   "main": "src/index.js",
   "scripts": {
     "start": "node test/index.js",
     "debug": "node --inspect test/index.js",
     "pub": "sh publish.sh",
-    "pubin": "npm publish --registry http://npm-registry.nevint.com/repository/npm-host/",
     "puball": "npm run pub && npm run pubin",
     "test": "node ./test/test/testAll"
   },
