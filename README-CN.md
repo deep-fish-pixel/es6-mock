@@ -33,7 +33,7 @@ module.exports =  {
         dir: './mock',
         // url访问根路径名称 
         path: '/api',
-        // add express bodyParser
+        // add express json bodyParser
         app: app,
         // 添加热加载
         hotServer: server

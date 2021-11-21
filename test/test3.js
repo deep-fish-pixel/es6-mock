@@ -7,7 +7,7 @@ import { delay, validate, request } from '../src';
 import test1 from './test1';
 import test2 from './test2';
 
-// 延迟500ms
+// 延迟ms
 delay(400);
 
 // 校验数据

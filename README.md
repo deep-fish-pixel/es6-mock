@@ -33,7 +33,7 @@ module.exports =  {
         dir: './mock',
         // Url root path 
         path: '/api',
-        // Add express bodyParser
+        // Add express json bodyParser
         app: app,
         // Set Hot Reload
         hotServer: server

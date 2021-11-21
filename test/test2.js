@@ -1,6 +1,6 @@
 import { delay, validate, request } from '../src/index';
 
-// 延迟500ms
+// 延迟ms
 delay(300);
 
 // 校验数据
