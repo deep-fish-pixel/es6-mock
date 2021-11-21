@@ -49,7 +49,7 @@ module.exports =  {
 // import 导入工具库
 import path from 'path';
 import fs from 'fs';
-import { sleep, validate, request } from 'es6-mock';
+import { delay, validate, request } from 'es6-mock';
 
 // import 导入其他mock模块
 import test1 from './test1';

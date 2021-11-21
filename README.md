@@ -49,7 +49,7 @@ module.exports =  {
 // Import lib
 import path from 'path';
 import fs from 'fs';
-import { sleep, validate, request } from 'es6-mock';
+import { delay, validate, request } from 'es6-mock';
 
 // Import other mock datas
 import test1 from './test1';
