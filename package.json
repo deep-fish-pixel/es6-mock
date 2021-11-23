@@ -16,11 +16,16 @@
   },
   "keywords": [
     "mock",
-    "data",
-    "es6",
-    "module",
-    "import",
-    "export"
+    "mockdata",
+    "mockjs",
+    "mockjson",
+    "mockHMR",
+    "mockHot",
+    "mockesm",
+    "mockimport",
+    "mockexport",
+    "mockSimple",
+    "mockEasy"
   ],
   "author": "deepFish",
   "license": "ISC",
