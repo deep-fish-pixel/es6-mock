@@ -60,6 +60,13 @@ delay(500);
 
 // 校验数据（如果校验不通过，则返回详细的校验错误作为请求响应）
 validate({
+    // 请求头验证
+    header: {
+      'Cache-Control': 'required|equals:no-cache',
+      cookie: {
+        _gid: 'required'
+      },
+    },
     // 参数校验类型、格式等及是否必选
     param: {
       name: 'required|string',

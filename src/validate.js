@@ -8,6 +8,35 @@ const Methods = {
   Patch: 'PATCH'
 };
 
+/**
+ * 校验请求头
+ * @param request
+ * @param response
+ * @param validates
+ */
+function validateHeader(request, response, validates) {
+  const headers = {
+    ...request.headers
+  };
+  if (validates.header && typeof validates.header.cookie !== 'string') {
+    const cookie = {};
+    headers.cookie.replace(/(\w+)=([^;]*)/g, (all, key, value) => {
+      cookie[key] = value;
+    });
+    headers.cookie = cookie;
+  }
+  const validator = new Validator(
+    headers,
+    validates.header);
+  return validator.check().then((matched) => {
+    if (!matched) {
+      Object.keys(validator.errors).map(key => validator.errors[key].message = (validator.errors[key].message || '').replace(/^The /, 'header.'));
+      response.status(422).send(validator.errors);
+      return false;
+    }
+    return true;
+  });
+}
 
 /**
  * 校验参数
@@ -18,11 +47,12 @@ const Methods = {
 function validateParam(request, response, validates) {
   const validator = new Validator(
     request.method === Methods.Get
-    ? request.query
-    : request.body,
+      ? request.query
+      : request.body,
     validates.param || validates.params);
   return validator.check().then((matched) => {
     if (!matched) {
+      Object.keys(validator.errors).map(key => validator.errors[key].message = (validator.errors[key].message || '').replace(/^The /, 'param.'));
       response.status(422).send(validator.errors);
       return false;
     }
@@ -51,27 +81,70 @@ function validateMethod(request, response, method){
   return true;
 }
 
+/**
+ * 验证请求的header param method
+ * @param request
+ * @param response
+ * @param validates
+ * @returns {Promise<boolean>}
+ */
 function validate(request, response, validates) {
   if(validateMethod(request, response, validates.method)){
-    return validateParam(request, response, validates);
+    return validateHeader(request, response, validates)
+      .then(((resulte) => {
+        if (resulte){
+          return validateParam(request, response, validates);
+        }
+        return false;
+      }))
   }
   return Promise.resolve(true);
 }
 
-module.exports = validate;
+/**
+ * 支持二级子属性的校验
+ * @param values
+ * @param lowerCase
+ * @returns {{}}
+ */
+function transformSubProperties(values, lowerCase){
+  const results = {};
+  Object.keys(values).forEach(key => {
+    const lowerKey = lowerCase ? key.toLowerCase() : key;
+    const subValues = values[key];
+    if (typeof subValues !== 'string') {
+      Object.keys(subValues).forEach(subKey => {
+        results[`${key}.${subKey}`] = subValues[subKey];
+      });
+    } else {
+      results[lowerKey] = values[key];
+    }
+  });
+  return results;
+}
 
-module.exports.init = function (request, response) {
+validate.init = function (request, response) {
   request.validate = {
     value: {
+      header: {},
       param: {},
       method: ''
     },
     add(validates) {
-      Object.assign(this.value.param, validates.param);
-      this.value.method = validates.method;
+      if (validates.header) {
+        Object.assign(this.value.header, transformSubProperties(validates.header, true));
+      }
+      if (validates.param) {
+        Object.assign(this.value.param, transformSubProperties(validates.param));
+      }
+      if (validates.method) {
+        this.value.method = validates.method;
+      }
     },
     exec(){
       return validate(request, response, this.value);
     }
   }
 }
+
+module.exports = validate;

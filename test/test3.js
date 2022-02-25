@@ -12,6 +12,13 @@ delay(400);
 
 // 校验数据
 validate({
+  // 请求头验证
+  header: {
+    'Accept-Encoding': 'required',
+    cookie: {
+      _gid: 'required'
+    },
+  },
   // 参数校验类型、格式等及是否必选
   param: {
     name: 'required|string',

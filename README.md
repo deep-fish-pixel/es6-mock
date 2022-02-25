@@ -60,6 +60,13 @@ delay(500);
 
 // Validate request （If validate failed, will return validate messages as response）
 validate({
+    // Validate header required
+    header: {
+      'Cache-Control': 'required|equals:no-cache',
+      cookie: {
+        _gid: 'required'
+      },
+    },
     // Validate param required、 type or format
     param: {
         name: 'required|string',
