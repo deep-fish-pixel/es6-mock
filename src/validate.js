@@ -114,7 +114,7 @@ function transformSubProperties(values, lowerCase){
     const subValues = values[key];
     if (typeof subValues !== 'string') {
       Object.keys(subValues).forEach(subKey => {
-        results[`${key}.${subKey}`] = subValues[subKey];
+        results[`${lowerKey}.${subKey}`] = subValues[subKey];
       });
     } else {
       results[lowerKey] = values[key];

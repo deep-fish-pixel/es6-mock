@@ -9,7 +9,7 @@ validate({
   header: {
     'Accept-Encoding': 'required',
     cookie: {
-      _gid: 'required'
+      _ga: 'required'
     },
   },
   // 参数校验
