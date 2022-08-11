@@ -1,6 +1,6 @@
 {
   "name": "es6-mock",
-  "version": "2.7.1",
+  "version": "2.7.5",
   "description": "es6-mock",
   "main": "src/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maweimaweima/es6-mock.git"
+    "url": "git+https://github.com/deep-fish-pixel/es6-mock.git"
   },
   "keywords": [
     "mock",
@@ -30,9 +30,9 @@
   "author": "deepFish",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/maweimaweima/es6-mock/issues"
+    "url": "https://github.com/deep-fish-pixel/es6-mock/issues"
   },
-  "homepage": "https://github.com/maweimaweima/es6-mock#readme",
+  "homepage": "https://github.com/deep-fish-pixel/es6-mock#readme",
   "dependencies": {
     "atomic-sleep": "^1.0.0",
     "body-parser": "^1.19.0",
